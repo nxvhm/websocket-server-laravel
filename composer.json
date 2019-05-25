@@ -1,0 +1,19 @@
+{
+    "name": "nxvhm/websocket-server-laravel",
+    "description": "Artisan commands to start ratchet based websocket server",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Antoan Partadzhiev",
+            "email": "a.partadzhiev@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+          "Nxvhm\\WebSocket\\": "src/"
+      }
+    },
+    "require": {
+      "cboden/ratchet": "^0.4.1"
+    }
+}
