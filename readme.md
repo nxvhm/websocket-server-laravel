@@ -1,5 +1,7 @@
 # Web Socket Server for Laravel Artisan
 
+Simple wrapper of http://socketo.me/docs/hello-world intended to use with artisan in laravel env
+
 ## Install
 1. Clone or download the repository      
 2. Copy the folder in your laravel project. For example in *laravel-project/app/Library*
