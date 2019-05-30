@@ -3,6 +3,7 @@ namespace Nxvhm\WebSocket;
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+use Config;
 
 class Messanger implements MessageComponentInterface {
 
@@ -14,26 +15,14 @@ class Messanger implements MessageComponentInterface {
 
   public function onOpen(ConnectionInterface $conn) {
 
-    parse_str($conn->httpRequest->getUri()->getQuery(), $requestParams);
+    if (Config::get('websocket.require_user_id', false)) {
+      $this->connectionWithUid($conn);
+    } else {
+      $this->connections->attach($conn);
 
-    $userId = false;
-
-    foreach(['uid', 'userId', 'user_id'] as $uidKey) {
-      if (isset($requestParams[$uidKey])) {
-          $userId = $requestParams[$uidKey];
-          break;
-      }
+      echo "New connection! ({$conn->uid})\n";
     }
 
-    if (!$userId) {
-      throw new Exception('NO USER ID PROVIDED');
-    }
-
-    $conn->uid = $userId;
-
-    $this->connections->attach($conn);
-
-    echo "New connection! ({$conn->uid})\n";
   }
 
   public function onMessage(ConnectionInterface $from, $msg) {
@@ -76,5 +65,23 @@ class Messanger implements MessageComponentInterface {
       echo "An error has occurred: {$e->getMessage()}\n";
 
       $conn->close();
+  }
+
+  protected function connectionWithUid(ConnectionInterface $conn) {
+
+    parse_str($conn->httpRequest->getUri()->getQuery(), $requestParams);
+
+    if (!isset($requestParams[Config::get('websocket.user_id_key')])) {
+      $conn->close();
+      throw new \Exception('NO USER ID PROVIDED, CONNECTION REFUSED');
+    }
+
+    $userId = $requestParams[Config::get('websocket.user_id_key')];
+
+    $conn->uid = $userId;
+
+    $this->connections->attach($conn);
+
+    echo "New connection User Id: ({$conn->uid})\n";
   }
 }
