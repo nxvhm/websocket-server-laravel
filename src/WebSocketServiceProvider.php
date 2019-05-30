@@ -17,8 +17,6 @@ class WebSocketServiceProvider extends ServiceProvider
    */
   public function register()
   {
-    // $this->app->make('Nxvhm\Users\Http\Controllers\UsersController');
-    // $this->loadViewsFrom(__DIR__.'/resources/views', 'users');
   }
   /**
    * Bootstrap services.
@@ -29,6 +27,15 @@ class WebSocketServiceProvider extends ServiceProvider
   {
     if ($this->app->runningInConsole()) {
       $this->commands($this->commands);
-  }
+    }
+
+    # php artisan vendor:publish --tag=config
+    $this->publishes([
+      __DIR__ . '/config/websocket.php' => \config_path('websocket.php')
+    ], 'config');
+
+    $this->publishes([
+      __DIR__ . '/assets/js/SocketClient.js' => \public_path('assets/js/SocketClient.js')
+    ], 'assets');
   }
 }
