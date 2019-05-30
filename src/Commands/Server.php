@@ -7,28 +7,20 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Nxvhm\WebSocket\Messanger;
+use Config;
 
 class Server extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
      * @var string
      */
-    protected $signature = 'wss:start {port}';
+    protected $signature = 'wss:start {port?}';
 
     /**
-     * The console command description.
-     *
      * @var string
      */
     protected $description = 'Start Ratchet Based Web Socket Server';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
@@ -41,7 +33,12 @@ class Server extends Command
      */
     public function handle()
     {
-      $port = $this->argument('port');
+
+      $port = $this->argument('port') ?? Config::get('websocket.port', false);
+
+      if (!$port) {
+        throw new \Exception('No port specified');
+      }
 
       $server = IoServer::factory(new HttpServer(
           new WsServer(new Messanger())
