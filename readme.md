@@ -29,18 +29,13 @@ Simple wrapper of http://socketo.me/docs/hello-world intended to use with artisa
 $ composer dump-autoload
 ```
 
+6. Publish config file and assets
+```bash
+php artisan vendor:publish --provider="Nxvhm\WebSocket\WebSocketServiceProvier"
+```
+
 ## Start
 ```php
 php artisan wss:start {port}
 ```
-Then in your html:
-```html
-var conn = new WebSocket('ws://localhost:4255?uid=12&param1=val1');
-conn.onopen = function(e) {
-    console.log("Connection established!");
-};
 
-conn.onmessage = function(e) {
-    console.log(e.data);
-};
-```
