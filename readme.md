@@ -3,8 +3,17 @@
 Simple wrapper of http://socketo.me/docs/hello-world intended to use with artisan in laravel env
 
 ## Install
+0. Install the required dependencies **cboden/ratchet** and **ratchet/pawl** in your laravel project
+
+```bash
+$ composer require cboden/ratchet
+$ composer require ratchet/pawl
+```
+
 1. Clone or download the repository      
-2. Copy the folder in your laravel project. For example in *laravel-project/app/Library*
+
+2. Copy the folder in your laravel project. For example in *laravel-project/app/Library*      
+
 3. Register the package in your composer.json
 ```json
     "autoload": {
