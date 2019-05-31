@@ -1,4 +1,4 @@
-window.SocketClient = {
+SocketClient = {
 
   connection: null,
 
@@ -42,27 +42,26 @@ window.SocketClient = {
     };
 
     SocketClient.connection.onmessage = SocketClient.incomingMessage;
-
-    // SocketClient.connection.addEventListener('new-user-online', function(e) {
-    //   console.log(console.log('new-user-online', e));
-    // });
   },
 
   /**
    * On WebSocket message handler
-   * @param   {object}  payload
+   * @param   {object}  WsMsg
    */
-  incomingMessage: (payload) => {
+  incomingMessage: (WsMsg) => {
     try {
-      let data = JSON.parse(payload.data);
 
-      console.log('WsMsg', data);
+      // Dispatch Event or Custom event if data has value field
+      let data = JSON.parse(WsMsg.data);
+
       if (data.type === 'event') {
-        return SocketClient.dispatchEvent(data.name);
+        detail = data.value ? data.value : null;
+
+        return SocketClient.dispatchEvent(data.name, detail);
       }
 
     } catch (error) {
-      console.error(error.message);
+      console.log('WsMsg', WsMsg.data);
       return false;
     }
   },
@@ -78,3 +77,4 @@ window.SocketClient = {
   }
 }
 
+window.SocketClient = SocketClient;
