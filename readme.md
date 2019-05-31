@@ -116,7 +116,11 @@ class ProcessSomething implements ShouldQueue {
 
       $percentsComplete = round(($keyCount/$count)*100);
       $msg = json_encode(['for_uid' => $this->uid, 'type' => 'event', 'name' => 'my-event-progress', 'value' => $percentsComplete]);
-      $client->send($msg);
+      try {
+        $client->send($msg);
+      } catch (\WebSocket\ConnectionException $e) {
+        // Unsuccessful connection attempt
+      }
 
 
     }    
