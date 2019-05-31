@@ -40,9 +40,13 @@ class Server extends Command
         throw new \Exception('No port specified');
       }
 
-      $server = IoServer::factory(new HttpServer(
+      $loop = \React\EventLoop\Factory::create();
+      $socket = new \React\Socket\Server("127.0.0.1:$port",$loop);
+
+      $server = new IoServer(
+        new HttpServer(
           new WsServer(new Messanger())
-        ), $port
+        ), $socket, $loop
       );
 
       $this->info('WebSocketServer Started at port '.$port);
