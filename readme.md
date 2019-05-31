@@ -3,11 +3,11 @@
 Simple wrapper of http://socketo.me/docs/hello-world intended to use with artisan in laravel env
 
 ## Install
-0. Install the required dependencies **cboden/ratchet** and **ratchet/pawl** in your laravel project
+0. Install the required dependencies **cboden/ratchet** and **textalk/websocket** in your laravel project
 
 ```bash
 $ composer require cboden/ratchet
-$ composer require ratchet/pawl
+$ composer require textalk/websocket
 ```
 
 1. Clone or download the repository      
