@@ -27,8 +27,9 @@ SocketClient = {
    * @param {String}  uid   User ID connecting to the socket
    * @callback cb The function to execute on successfull connection or error/interuption.
    */
-  connect: (url, port, uid, cb = null) => {
-    SocketClient.connection = new WebSocket(`ws://${url}:${port}?uid=${uid}`);
+  connect: (url, port, uid, ssl = false, cb = null) => {
+    let protocol = ssl ? 'wss://' : 'ws://'
+    SocketClient.connection = new WebSocket(`${protocol}${url}:${port}?uid=${uid}`);
 
     //If connection throws error execute the provided
     SocketClient.connection.onerror = () => {
