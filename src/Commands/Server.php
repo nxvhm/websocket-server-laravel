@@ -41,7 +41,7 @@ class Server extends Command
       }
 
       $loop = \React\EventLoop\Factory::create();
-      $socket = new \React\Socket\Server("127.0.0.1:$port",$loop);
+      $socket = new \React\Socket\Server("0.0.0.0:$port",$loop);
 
       $server = new IoServer(
         new HttpServer(
