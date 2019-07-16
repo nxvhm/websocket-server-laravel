@@ -22,14 +22,20 @@ SocketClient = {
 
   /**
    * Connect to socket Server
-   * @param {String}  url   WebSocket server domain
-   * @param {Int}     port  WebSocket Server Port
-   * @param {String}  uid   User ID connecting to the socket
+   * @param {Object}  options Connection options to WebSocket server (ip, port, etc)
+   * @param {Int}     port    WebSocket Server Port
+   * @param {String}  uid     User ID connecting to the socket
    * @callback cb The function to execute on successfull connection or error/interuption.
    */
-  connect: (url, port, uid, ssl = false, cb = null) => {
+  connect: (options, uid, ssl = false, cb = null) => {
     let protocol = ssl ? 'wss://' : 'ws://'
-    SocketClient.connection = new WebSocket(`${protocol}${url}:${port}?uid=${uid}`);
+
+    // If connection url provided use it instead of ip/port
+    let url = options.connection_url
+      ? `${protocol}${options.connection_url}`
+      : `${protocol}${options.ip}:${options.port}?uid=${uid}`;
+
+    SocketClient.connection = new WebSocket(url);
 
     //If connection throws error execute the provided
     SocketClient.connection.onerror = () => {
