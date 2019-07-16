@@ -32,7 +32,7 @@ SocketClient = {
 
     // If connection url provided use it instead of ip/port
     let url = options.connection_url
-      ? `${protocol}${options.connection_url}`
+      ? `${protocol}${options.connection_url}?uid=${uid}`
       : `${protocol}${options.ip}:${options.port}?uid=${uid}`;
 
     SocketClient.connection = new WebSocket(url);
