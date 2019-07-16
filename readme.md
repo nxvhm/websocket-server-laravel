@@ -61,11 +61,14 @@ In your .blade view include SocketClient.js, initialize connection to the socket
 <script>
   // Get Server Ip and port
   var uid =  '{{ Auth::user()->id }}';
-  var socketHost = "{{ Config::get('websocket.host', false)}}";
-  var socketPort = "{{ Config::get('websocket.port', false)}}";
+  var options = {
+    'ip':             "{{ Config::get('websocket.host', false)}}",
+    'port':           "{{ Config::get('websocket.port', false)}}",
+    'connection_url': "{{ Config::get('websocket.connection_url', false)}}",
+  };
   $(document).ready(function(){
     // Initialize connection
-    window.SocketClient.connect(socketHost, socketPort, uid, function(result) {
+    window.SocketClient.connect(options, uid, function(result) {
       console.log('connected', result);
       // Add event listener to update the DOM when event occure
       window.SocketClient.getConnection().addEventListener('my-event-progress', function(event){
